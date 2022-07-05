@@ -4,10 +4,13 @@ Have you ever wanted to save what you coded in the interactive python interprete
 ```
 import interactive
 
-#if you want to save your inputs, give a file path
+# if you want to save your inputs, give a file path
 your_file_path = "log.py" 
 
 interactive.interact(your_file_path)
+
+# you can also just use the interactive interpreter 
+interactive.interact()
 ```
 
 The bold lines will be stored :
