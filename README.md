@@ -12,14 +12,24 @@ interactive.interact(your_file_path)
 
 The bold lines will be stored :
 
-**>>> a = 2
->>> b = 3**
->>> a
+**>>> a = 2** #stored
+
+**>>> b = 3** #stored
+
+\>>> a ## not stored
+
 2
->>> a + b
+
+\>>> a + b ## not stored
+
 5
-**>>> def x():
-...   output = a+b
-...   return output**
->>>
-**>>> x()**
+
+**>>> def x():** #stored
+
+**...   output = a+b** #stored
+
+**...   return output** #stored
+
+\>>>
+
+**>>> x()** #stored
