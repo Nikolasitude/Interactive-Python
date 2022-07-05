@@ -5,7 +5,7 @@
 # Inspired by similar code by Jeff Epler and Fredrik Lundh.
 
 # This is a modified version of "code.py" which is a built-in python module
-# It helps you 
+# It saves what you are conding inside de python interpreter
 
 import sys
 import traceback
