@@ -37,8 +37,8 @@ The lines in italic shows what will be stored :
 
 \>>> x() #not stored
 
-7
+5
 
 *>>> -x()* #stored
 
-7
+5
