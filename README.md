@@ -35,4 +35,6 @@ The lines in italic shows what will be stored :
 
 \>>>
 
-*>>> x()* #stored
+>>> x() #not stored
+
+*>>> -x()* #stored
