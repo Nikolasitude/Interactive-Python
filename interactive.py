@@ -5,7 +5,7 @@
 # Inspired by similar code by Jeff Epler and Fredrik Lundh.
 
 # This is a modified version of "code.py" which is a built-in python module
-# It helps you 
+# It helps you save what you type in the python interpreter
 
 import sys
 import traceback
@@ -74,10 +74,10 @@ class InteractiveInterpreter:
             return True
 
         # Case 3
-        self.runcode(code, source)
+        self.runcode(code, source, filename, symbol)
         return False
 
-    def runcode(self, code, source):
+    def runcode(self, code, source, filename, symbol):
         """Execute a code object.
 
         When an exception occurs, self.showtraceback() is called to
@@ -117,6 +117,7 @@ class InteractiveInterpreter:
                 # You can comment the lines below if you don't want to store your function's call 
                 if "(" in source and ")" in source and source.startswith("-"):
                     source = source[1:]
+                    code = self.compile(source, filename, symbol)
                     raise Exception
 
                 msg = eval(source, self.locals)
