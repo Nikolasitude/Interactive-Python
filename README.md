@@ -1,44 +1,53 @@
 # Interactive-Python
-Have you ever wanted to save what you coded in the interactive python interpreter into a file ?
 
-```
-import interactive
+This module gives you an interpreter that saves your code in a file. 
+
+```py
+import console_save
 
 # if you want to save your inputs, give a file path
 your_file_path = "log.py" 
 
-interactive.interact(your_file_path)
-
-# you can also just use the interactive interpreter 
-interactive.interact()
+console_save.interact(your_file_path)
 ```
 
-The lines in italic shows what will be stored :
+Showcase (what is saved and what isn't saved in the given file) :
 
-*>>> a = 2* #stored
+```py
+->> a = 2 # variables are saved
+->> b = 3 # saved
+->> c = foo() # saved
 
-*>>> b = 3* #stored
-
-\>>> a ## not stored
-
+->> a ## statements are not saved
 2
-
-\>>> a + b ## not stored
-
+->> a + b ## not saved 
 5
+->> a==2 ## not saved
+True
 
-*>>> def x():* #stored
+*->> def x(): # functions are saved
+\..   output = a+b # saved
+\..   return(output) # saved
+\... # this empty new line is not saved 
 
-*...   output = a+b* #stored
+->> # any new line are saved
 
-*...   return output* #stored
-
-\>>>
-
-\>>> x() #not stored
-
+->> x() # function calls are not saved
 5
-
-*>>> -x()* #stored
-
+->> -x() # but you can save function calls by adding a "-" in front
 5
+```
+
+## Download 
+
+With pip 
+
+```cmd
+pip install git+https://github.com/Nikolasitude/Interactive-Python.git
+```
+With github
+
+```md
+Download the console_save folder in the src/ directory
+Or you can directly use interact.py that contains the interact() function 
+```
