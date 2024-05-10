@@ -12,9 +12,6 @@ import traceback
 from codeop import CommandCompiler, compile_command
 from os.path import exists
 
-__all__ = ["InteractiveInterpreter", "InteractiveConsole", "interact",
-           "compile_command"]
-
 class InteractiveInterpreter:
     """Base class for InteractiveConsole.
 
@@ -111,33 +108,55 @@ class InteractiveInterpreter:
 
 
                 # If you use a function like : 
-                #                       >>> f(x)
-                #                       ... an exception is made in order to make it happen as expression                
-                # And therefore, as an expression, it will be stored in the file
-                # You can comment the lines below if you don't want to store your function's call 
+                #                       ->> -f(x)
+                #                       \.. "f(x)" will be store in the file if a path is given
+     
                 if "(" in source and ")" in source and source.startswith("-"):
                     source = source[1:]
                     code = self.compile(source, filename, symbol)
                     raise Exception
+                    # This error will make the code go trough exec instead of eval
+                    # That changes nothing
+                    # But it will make it available for saving if a file path is given
+                
+                # Example: 
+                # >>> a=="2" # will either return True or False
+                # There's no need to save that line,
+                # ... even thought it's possible with putting the expression in a parentheses "-(a==2)"
 
+                # There's a simple evaluation and a return of the result to the user
+                # If it's not a statement, eval() will raise a SyntaxError
                 msg = eval(source, self.locals)
                 if msg != None:
                     print(msg)
 
             except: #Is it an expression ?
                 out = exec(code, self.locals)
+                # The code might not work and return an error
+                # Then a traceback is shown to the user
+                # See the self.showtraceback() below
 
-                #If the code works and doesn't return an error and there is a file path, it will be stored
+                # If the code works without issue
+                # And if there is a file path
+                # The code will be saved at the end of the file
                 if self.path:
                     with open(self.path, "a") as f:
                         f.write(source+"\n")
+                        
+                # function creation will be save
+                # ex : --> def foo():
+                #      /..    return(21)
+
+                # variable creation will be saved
+                # ex : ->> a = foo(x)
+
+                # function calls with a "-" before it will be stored
+                # ex : ->> -foo(x)
+                # without the "-", the function is still executed
                 
                 if out != None:
                         print(out)
 
-            # exec(code, self.locals)
-            # with open("log.py", "a") as f:
-            #     f.write(source+"\n")
         except SystemExit:
             raise
         except:
@@ -335,29 +354,37 @@ def interact(saving_path=None, banner=None, readfunc=None, local=None, exitmsg=N
 
     """
 
-    # if a the selected python file exists, it's data will be extracted into this interpreter  
-    if exists(saving_path):
-        
-        def getClasses(filename):
-            classes = {}
+    # if a the selected python file exists, it's data will be extracted into this interpreter
+    if saving_path is not None:
+        if exists(saving_path):
+            print("File detected, your input will be added at the end")
 
-            if filename.endswith(".py"):
-                modname = filename[:-3]
-                module = __import__(modname)
-                for element in dir(module):
-                    if not element.startswith("__"):
-                        classes[element] = getattr(module, element)
+            if saving_path.endswith(".py"):
+                print("File is a python file, it's content will be imported")
 
-            return classes
+                def getClasses(filename):
+                    classes = {}
 
-        try:
-            data = getClasses(saving_path)
-            local = {"__name__": "__console__", "__doc__": None}
-            local.update(data) 
-        except Exception as e:
-            print("\nThe file's content could not be imported")
-            print("Error Message : ", e, "\n")
-            print("The following will still be saved in the file")
+                    if filename.endswith(".py"):
+                        modname = filename[:-3]
+                        module = __import__(modname)
+                        for element in dir(module):
+                            if not element.startswith("__"):
+                                classes[element] = getattr(module, element)
+
+                    return classes
+
+                try:
+                    data = getClasses(saving_path)
+                    local = {"__name__": "__console__", "__doc__": None}
+                    local.update(data)
+                    
+                    print("Import successfull") 
+                
+                except Exception as e:
+                    print("\nThe file's content could not be imported")
+                    print("Error Message : ", e, "\n")
+                    print("The following will still be saved in the file")
         
         
     console = InteractiveConsole(local)
