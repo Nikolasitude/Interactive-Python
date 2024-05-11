@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "console_save"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="NRK HMB", email="74872995+Nikolasitude@users.noreply.github.com"},
 ]

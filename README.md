@@ -11,6 +11,12 @@ your_file_path = "log.py"
 console_save.interact(your_file_path)
 ```
 
+Or from command line
+
+```cmd
+python -m console_save "file_to_save.py"
+```
+
 Showcase (what is saved and what isn't saved in the given file) :
 
 ```py
